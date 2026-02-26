@@ -1,0 +1,394 @@
+{% extends 'base.html' %}
+
+{% block body_class %}bg-slate-50 min-h-screen{% endblock %}
+
+{% block head %}
+<style>
+    ::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
+
+    html {
+        scrollbar-width: none;
+    }
+
+    body {
+        -ms-overflow-style: none;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="relative overflow-hidden">
+    <div class="absolute inset-0 -z-10">
+        <div class="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-slate-200/60 blur-3xl"></div>
+        <div class="absolute -bottom-28 -right-24 h-80 w-80 rounded-full bg-slate-200/60 blur-3xl"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-white via-slate-50 to-slate-100"></div>
+    </div>
+
+    <!-- Navbar -->
+    <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/85 backdrop-blur shadow-sm">
+        <div class="mx-auto max-w-6xl px-4">
+            <div class="flex h-16 items-center justify-between">
+                <a href="{% url 'home' %}" class="flex items-center gap-2">
+        <span class="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-900 text-white">
+          <i data-lucide="messages-square" class="w-5 h-5"></i>
+        </span>
+                    <span class="font-semibold text-slate-900">TalkUp</span>
+                </a>
+
+                <a href="{% url 'login' %}"
+                   class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 transition shadow-sm">
+                    Kirish
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <main>
+        <!-- FIXED HERO: translate yo‘q, flex-center yo‘q -->
+        <section class="mx-auto max-w-6xl px-4 min-h-[calc(100svh-4rem)] pt-10 pb-10 md:pt-16 md:pb-16 scroll-mt-24">
+            <div class="grid items-center gap-10 md:grid-cols-2">
+                <div>
+                    <div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600">
+                        <span class="inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+                        Tez • Xavfsiz • Minimalistik
+                    </div>
+
+                    <h1 class="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+                        TalkUp — yozishmalarni
+                        <span class="text-slate-700">oddiy</span> va
+                        <span class="text-slate-700">qulay</span> qiling
+                    </h1>
+
+                    <p class="mt-4 text-base leading-relaxed text-slate-600">
+                        TalkUp ijtimoiy tarmoq provayderlari orqali tez kirish, silliq chat tajribasi va toza dizaynni
+                        bir joyga jamlaydi.
+                        Ro‘yxatdan o‘tish shart emas — bir tugma bilan boshlang.
+                    </p>
+
+                    <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+                        <a href="{% url 'login' %}"
+                           class="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-medium text-white hover:bg-slate-800 transition shadow-sm">
+                            <i data-lucide="log-in" class="h-4 w-4"></i>
+                            Boshlash (Kirish)
+                        </a>
+
+                        <a href="#features"
+                           class="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 transition">
+                            <i data-lucide="sparkles" class="h-4 w-4"></i>
+                            Imkoniyatlarni ko‘rish
+                        </a>
+                    </div>
+
+                    <div class="mt-5 flex items-start gap-2 text-xs text-slate-500">
+                        <i data-lucide="lock" class="mt-0.5 h-4 w-4 text-slate-700"></i>
+                        <p class="leading-relaxed">
+                            Davom etish orqali siz TalkUp’ning
+                            <a href="{% url 'terms' %}"
+                               class="font-medium text-slate-700 hover:text-slate-900 underline underline-offset-2">
+                                foydalanish shartlari
+                            </a>
+                            bilan tanishganingizni tasdiqlaysiz.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Preview card -->
+                <div class="relative mt-6 md:mt-0">
+                    <div class="absolute -inset-1 -z-10 rounded-[28px] bg-gradient-to-br from-slate-200 via-white to-slate-200 blur-xl opacity-60"></div>
+
+                    <div class="rounded-2xl border border-slate-200 bg-white shadow-xl overflow-hidden">
+                        <div class="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 py-3">
+                            <div class="flex items-center gap-2">
+                                <span class="h-2.5 w-2.5 rounded-full bg-red-400"></span>
+                                <span class="h-2.5 w-2.5 rounded-full bg-amber-400"></span>
+                                <span class="h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
+                            </div>
+                            <div class="text-xs text-slate-500">TalkUp Preview</div>
+                            <div class="w-10"></div>
+                        </div>
+
+                        <div class="p-5">
+                            <div class="flex items-start gap-3">
+                                <div class="h-10 w-10 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center">
+                                    <i data-lucide="user" class="h-5 w-5 text-slate-700"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="h-3 w-24 rounded-full bg-slate-200"></div>
+                                    <div class="mt-2 h-3 w-40 rounded-full bg-slate-200"></div>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 space-y-3">
+                                <div class="flex justify-start">
+                                    <div class="max-w-[75%] rounded-2xl bg-slate-100 px-4 py-3 text-sm text-slate-700">
+                                        Assalomu alaykum! TalkUp’da gaplashamiz 🙂
+                                    </div>
+                                </div>
+                                <div class="flex justify-end">
+                                    <div class="max-w-[75%] rounded-2xl bg-slate-900 px-4 py-3 text-sm text-white">
+                                        Va alaykum assalom! Juda zo‘r dizayn 👌
+                                    </div>
+                                </div>
+                                <div class="flex justify-start">
+                                    <div class="max-w-[75%] rounded-2xl bg-slate-100 px-4 py-3 text-sm text-slate-700">
+                                        Tez kirish, silliq scroll, toza UI — hammasi shu yerda.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="h-10 w-10 rounded-2xl bg-white border border-slate-200 flex items-center justify-center">
+                                        <i data-lucide="shield-check" class="h-5 w-5 text-slate-800"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-semibold text-slate-800">Xavfsiz kirish</div>
+                                        <div class="text-xs text-slate-600">Uchinchi tomon provayderlari orqali</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a href="{% url 'login' %}"
+                               class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-slate-900 px-4 py-3 text-sm font-medium text-white hover:bg-slate-800 transition">
+                                <i data-lucide="log-in" class="h-4 w-4"></i>
+                                Kirishni boshlash
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section id="features" class="mx-auto max-w-6xl px-4 pb-12 md:pb-16 scroll-mt-24">
+            <div class="flex items-end justify-between gap-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Imkoniyatlar</h2>
+                    <p class="mt-2 text-sm text-slate-600">Minimal, tez va foydalanuvchiga yoqadigan tajriba.</p>
+                </div>
+            </div>
+
+            <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="h-11 w-11 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center">
+                        <i data-lucide="zap" class="h-5 w-5 text-slate-900"></i>
+                    </div>
+                    <h3 class="mt-4 font-semibold text-slate-900">Tez ishlash</h3>
+                    <p class="mt-2 text-sm text-slate-600 leading-relaxed">Eng kerakli funksiyalar. Ortiqcha elementlar
+                        yo‘q — tez va silliq.</p>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="h-11 w-11 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center">
+                        <i data-lucide="lock" class="h-5 w-5 text-slate-900"></i>
+                    </div>
+                    <h3 class="mt-4 font-semibold text-slate-900">Xavfsiz kirish</h3>
+                    <p class="mt-2 text-sm text-slate-600 leading-relaxed">Kirish provayder orqali. Parollarni saqlash
+                        shart emas (yoki minimal holat).</p>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="h-11 w-11 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center">
+                        <i data-lucide="palette" class="h-5 w-5 text-slate-900"></i>
+                    </div>
+                    <h3 class="mt-4 font-semibold text-slate-900">Toza dizayn</h3>
+                    <p class="mt-2 text-sm text-slate-600 leading-relaxed">Zamonaviy UI: yumshoq radius, yaxshi
+                        tipografika, charchatmaydigan ranglar.</p>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="h-11 w-11 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center">
+                        <i data-lucide="sparkles" class="h-5 w-5 text-slate-900"></i>
+                    </div>
+                    <h3 class="mt-4 font-semibold text-slate-900">Silliq tajriba</h3>
+                    <p class="mt-2 text-sm text-slate-600 leading-relaxed">UX mayda detallarga e’tibor: hover/focus,
+                        loading holatlar, o‘qilishi oson layout.</p>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="h-11 w-11 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center">
+                        <i data-lucide="bell" class="h-5 w-5 text-slate-900"></i>
+                    </div>
+                    <h3 class="mt-4 font-semibold text-slate-900">Bildirishnomalar</h3>
+                    <p class="mt-2 text-sm text-slate-600 leading-relaxed">Keyinchalik: xabarlar, statuslar, real-time
+                        tajriba (rejalashtiriladi).</p>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="h-11 w-11 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center">
+                        <i data-lucide="settings" class="h-5 w-5 text-slate-900"></i>
+                    </div>
+                    <h3 class="mt-4 font-semibold text-slate-900">Moslashuv</h3>
+                    <p class="mt-2 text-sm text-slate-600 leading-relaxed">Avatar, profil, sozlamalar — hammasi
+                        kengaytirishga tayyor strukturada.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How it works -->
+        <section id="how" class="mx-auto max-w-6xl px-4 pb-12 md:pb-16 scroll-mt-24">
+            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <div class="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900">Qanday ishlaydi</h2>
+                        <p class="mt-2 text-sm text-slate-600">3 qadamda boshlaysiz.</p>
+                    </div>
+
+                    <a href="{% url 'login' %}"
+                       class="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-medium text-white hover:bg-slate-800 transition">
+                        <i data-lucide="log-in" class="h-4 w-4"></i>
+                        Kirish
+                    </a>
+                </div>
+
+                <div class="mt-6 grid gap-4 md:grid-cols-3">
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                        <div class="flex items-center gap-3">
+                            <span class="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-white border border-slate-200 font-semibold text-slate-800">1</span>
+                            <h3 class="font-semibold text-slate-900">Provayderni tanlang</h3>
+                        </div>
+                        <p class="mt-2 text-sm text-slate-600 leading-relaxed">Google yoki boshqa provayderlar
+                            (kelajakda) orqali tez kirish.</p>
+                    </div>
+
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                        <div class="flex items-center gap-3">
+                            <span class="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-white border border-slate-200 font-semibold text-slate-800">2</span>
+                            <h3 class="font-semibold text-slate-900">Profil tayyor</h3>
+                        </div>
+                        <p class="mt-2 text-sm text-slate-600 leading-relaxed">Minimal profil ma’lumotlari olinadi —
+                            tez, ortiqcha forma yo‘q.</p>
+                    </div>
+
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                        <div class="flex items-center gap-3">
+                            <span class="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-white border border-slate-200 font-semibold text-slate-800">3</span>
+                            <h3 class="font-semibold text-slate-900">Chatni boshlang</h3>
+                        </div>
+                        <p class="mt-2 text-sm text-slate-600 leading-relaxed">Yozishmalar ro‘yxati, real-time tajriba
+                            va silliq dizayn.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="mx-auto max-w-6xl px-4 pb-14 scroll-mt-24">
+            <div class="flex items-end justify-between gap-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Tez-tez so‘raladigan savollar</h2>
+                    <p class="mt-2 text-sm text-slate-600">Qisqa javoblar, aniq tushuntirish.</p>
+                </div>
+            </div>
+
+            <div class="mt-6 grid gap-4 lg:grid-cols-2">
+                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="flex items-start gap-3">
+                        <div class="h-11 w-11 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0">
+                            <i data-lucide="help-circle" class="h-5 w-5 text-slate-900"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-slate-900">Parolim qayerda saqlanadi?</h3>
+                            <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                                Kirish uchinchi tomon provayderlari orqali bo‘lgani uchun parolni provayder boshqaradi.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="flex items-start gap-3">
+                        <div class="h-11 w-11 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0">
+                            <i data-lucide="shield" class="h-5 w-5 text-slate-900"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-slate-900">Qaysi ma’lumotlar olinadi?</h3>
+                            <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                                Minimal profil ma’lumotlari: ism, avatar va identifikatsiya uchun kerakli texnik
+                                ma’lumotlar.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="flex items-start gap-3">
+                        <div class="h-11 w-11 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0">
+                            <i data-lucide="link" class="h-5 w-5 text-slate-900"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-slate-900">Hisobni uzib qo‘ysa bo‘ladimi?</h3>
+                            <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                                Ha. Provayder sozlamalaridan TalkUp ilovasiga berilgan ruxsatlarni bekor qilishingiz
+                                mumkin.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <div class="flex items-start gap-3">
+                        <div class="h-11 w-11 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0">
+                            <i data-lucide="file-text" class="h-5 w-5 text-slate-900"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-slate-900">Shartlar qayerda?</h3>
+                            <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                                Bu yerda:
+                                <a href="{% url 'terms' %}"
+                                   class="font-medium text-slate-700 hover:text-slate-900 underline underline-offset-2">
+                                    foydalanish shartlari
+                                </a>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA bottom -->
+            <div class="mt-10 rounded-2xl border border-slate-200 bg-slate-900 p-6 text-white shadow-sm">
+                <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <h3 class="text-xl font-semibold">Tayyormisiz?</h3>
+                        <p class="mt-1 text-sm text-white/80">Bir tugma bilan kirib, chatni boshlang.</p>
+                    </div>
+                    <a href="{% url 'login' %}"
+                       class="inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-medium text-slate-900 hover:bg-slate-100 transition">
+                        <i data-lucide="log-in" class="h-4 w-4"></i>
+                        Kirish
+                    </a>
+                </div>
+            </div>
+
+            <footer class="mt-12 border-t border-slate-200 pt-6 pb-8">
+                <div class="text-center space-y-2">
+                    <div class="flex items-center justify-center gap-2 text-sm font-medium text-slate-700">
+      <span class="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-slate-900 text-white">
+        <i data-lucide="messages-square" class="h-3.5 w-3.5"></i>
+      </span>
+                        <span>TalkUp</span>
+                    </div>
+
+                    <p class="text-xs text-slate-500">
+                        © {{ year }} TalkUp. Barcha huquqlar himoyalangan.
+                    </p>
+
+                    <p class="text-[11px] text-slate-400">
+                        Tez • Xavfsiz • Minimalistik
+                    </p>
+                </div>
+            </footer>
+        </section>
+    </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    lucide.createIcons();
+</script>
+{% endblock %}

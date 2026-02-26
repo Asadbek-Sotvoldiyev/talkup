@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Foydalanish shartlari - TalkUp
+{% endblock %}
+
+{% block body_class %}
+bg-slate-100 min-h-screen flex items-center justify-center p-4
+{% endblock %}
+
+{% block body %}
+<div class="w-full max-w-3xl bg-white rounded-2xl shadow-xl p-8">
+
+    <!-- Header -->
+    <div class="text-center mb-8">
+        <div class="flex justify-center mb-4">
+            <div class="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center">
+                <i data-lucide="file-text" class="w-7 h-7 text-slate-900"></i>
+            </div>
+        </div>
+
+        <h2 class="text-2xl font-bold text-slate-800">Foydalanish shartlari</h2>
+        <p class="text-sm text-slate-500 mt-2">
+            TalkUp platformasidan foydalanishdan oldin quyidagi shartlarni o‘qib chiqing
+        </p>
+    </div>
+
+    <!-- Content -->
+    <div class="space-y-4">
+
+        <!-- Info banner -->
+        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+            <div class="flex items-start gap-3">
+                <div class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center shrink-0">
+                    <i data-lucide="info" class="w-5 h-5 text-slate-800"></i>
+                </div>
+                <div class="text-sm text-slate-600 leading-relaxed">
+                    Ushbu sahifa umumiy foydalanish shartlarini bayon qiladi. Platformadan foydalanish orqali siz ushbu
+                    shartlarga rozilik bildirasiz. Agar rozi bo‘lmasangiz, iltimos, xizmatdan foydalanmang.
+                </div>
+            </div>
+        </div>
+
+        <!-- Sections -->
+        <div class="grid gap-4">
+
+            <section class="rounded-2xl border border-slate-200 p-5">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
+                        <i data-lucide="user-check" class="w-5 h-5 text-slate-900"></i>
+                    </div>
+                    <h3 class="font-semibold text-slate-800">1) Hisob va xavfsizlik</h3>
+                </div>
+
+                <ul class="mt-3 space-y-2 text-sm text-slate-600 leading-relaxed">
+                    <li class="flex gap-2">
+                        <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0"></span>
+                        TalkUp platformasida ro‘yxatdan o‘tish va kirish uchinchi tomon xizmatlari (masalan, Google va
+                        boshqa ijtimoiy tarmoqlar) orqali amalga oshirilishi mumkin.
+                    </li>
+
+                    <li class="flex gap-2">
+                        <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0"></span>
+                        TalkUp foydalanuvchi parollarini saqlamaydi va to‘g‘ridan-to‘g‘ri parol boshqaruvini amalga
+                        oshirmaydi. Hisob xavfsizligi tanlangan xizmat provayderi orqali ta’minlanadi.
+                    </li>
+
+                    <li class="flex gap-2">
+                        <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0"></span>
+                        Hisobingiz xavfsizligini ta’minlash uchun tanlangan provayderda kuchli parol va qo‘shimcha
+                        himoya choralarini (masalan, 2 bosqichli tasdiqlash) yoqish tavsiya etiladi.
+                    </li>
+
+                    <li class="flex gap-2">
+                        <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0"></span>
+                        Ruxsatsiz kirish yoki shubhali faoliyat aniqlansa, tegishli provayder orqali barcha faol
+                        sessiyalarni yakunlash va qo‘llab-quvvatlashga murojaat qilish tavsiya etiladi.
+                    </li>
+
+                    <li class="flex gap-2">
+                        <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0"></span>
+                        TalkUp akkauntingiz orqali amalga oshirilgan harakatlar foydalanuvchi harakati sifatida qabul
+                        qilinadi.
+                    </li>
+                </ul>
+            </section>
+
+
+            <section class="rounded-2xl border border-slate-200 p-5">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
+                        <i data-lucide="message-circle" class="w-5 h-5 text-slate-900"></i>
+                    </div>
+                    <h3 class="font-semibold text-slate-800">2) Kontent va xulq-atvor</h3>
+                </div>
+                <ul class="mt-3 space-y-2 text-sm text-slate-600 leading-relaxed">
+                    <li class="flex gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0"></span>Hurmatli
+                        muloqot qiling: haqorat, tahdid, kamsitish, zo‘ravonlikni targ‘ib qilish taqiqlanadi.
+                    </li>
+                    <li class="flex gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0"></span>Noqonuniy
+                        materiallar, firibgarlik, spam va zararli havolalar tarqatish taqiqlanadi.
+                    </li>
+                    <li class="flex gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0"></span>Boshqalarning
+                        shaxsiy ma’lumotlarini ruxsatsiz ulashmang.
+                    </li>
+                </ul>
+            </section>
+
+            <section class="rounded-2xl border border-slate-200 p-5">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
+                        <i data-lucide="shield" class="w-5 h-5 text-slate-900"></i>
+                    </div>
+                    <h3 class="font-semibold text-slate-800">3) Maxfiylik va ma’lumotlar</h3>
+                </div>
+                <div class="mt-3 text-sm text-slate-600 leading-relaxed space-y-2">
+                    <p>
+                        Biz xizmatni taqdim etish va yaxshilash uchun zarur bo‘lgan minimal ma’lumotlarni qayta
+                        ishlashimiz mumkin
+                        (masalan, profil ma’lumotlari, texnik loglar). Shaxsiy ma’lumotlaringizni himoya qilishga
+                        harakat qilamiz.
+                    </p>
+                    <p class="text-slate-500">
+                        Eslatma: Internetda 100% xavfsizlik kafolatlanmaydi. Muhim shaxsiy ma’lumotlarni chatda
+                        ulashishda ehtiyot bo‘ling.
+                    </p>
+                </div>
+            </section>
+
+            <section class="rounded-2xl border border-slate-200 p-5">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
+                        <i data-lucide="alert-triangle" class="w-5 h-5 text-slate-900"></i>
+                    </div>
+                    <h3 class="font-semibold text-slate-800">4) Cheklovlar va javobgarlik</h3>
+                </div>
+                <ul class="mt-3 space-y-2 text-sm text-slate-600 leading-relaxed">
+                    <li class="flex gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0"></span>Xizmat
+                        “bor holicha” taqdim etiladi. Texnik uzilishlar bo‘lishi mumkin.
+                    </li>
+                    <li class="flex gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0"></span>Foydalanuvchi
+                        joylagan kontent uchun foydalanuvchi javobgar.
+                    </li>
+                    <li class="flex gap-2"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0"></span>Qoidalar
+                        buzilganda hisob vaqtincha bloklanishi yoki o‘chirilishi mumkin.
+                    </li>
+                </ul>
+            </section>
+
+            <section class="rounded-2xl border border-slate-200 p-5">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
+                        <i data-lucide="refresh-cw" class="w-5 h-5 text-slate-900"></i>
+                    </div>
+                    <h3 class="font-semibold text-slate-800">5) Shartlarni yangilash</h3>
+                </div>
+                <div class="mt-3 text-sm text-slate-600 leading-relaxed space-y-2">
+                    <p>
+                        TalkUp ushbu shartlarni vaqti-vaqti bilan yangilashi mumkin. Muhim o‘zgarishlar bo‘lsa, sahifada
+                        e’lon qilinadi.
+                    </p>
+                    <div class="rounded-xl bg-slate-50 border border-slate-200 p-4 text-sm text-slate-600">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="calendar" class="w-4 h-4 text-slate-700"></i>
+                            <span class="font-medium text-slate-700">Oxirgi yangilanish:</span>
+                            <span>{{ updated_at|default:"—" }}</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="pt-2">
+            <div class="flex flex-col sm:flex-row gap-3">
+                <a href="{% url 'home' %}"
+                   class="w-full sm:w-auto inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-slate-300
+                  bg-white hover:bg-slate-50 transition shadow-sm hover:shadow-md">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    <span class="font-medium text-slate-700">Ortga qaytish</span>
+                </a>
+
+                <a href="{% url 'login' %}"
+                   class="w-full sm:flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl
+                  bg-slate-900 text-white hover:bg-slate-800 transition shadow-sm hover:shadow-md">
+                    <i data-lucide="log-in" class="w-4 h-4"></i>
+                    <span class="font-medium">Kirish sahifasiga o‘tish</span>
+                </a>
+            </div>
+
+            <p class="text-center text-xs text-slate-500 mt-4">
+                Savol yoki shikoyat bo‘lsa, qo‘llab-quvvatlash bilan bog‘laning: <span class="font-medium">support@TalkUp.uz</span>
+            </p>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    lucide.createIcons();
+</script>
+{% endblock %}

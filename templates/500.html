@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+Serverdagi ichki xatolik - TalkUp
+{% endblock %}
+
+{% block body_class %}bg-slate-50 min-h-screen flex items-center justify-center{% endblock %}
+
+{% block body %}
+<div class="text-center px-4">
+    <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-900 text-white">
+        <i data-lucide="alert-triangle" class="h-7 w-7"></i>
+    </div>
+
+    <h1 class="text-3xl font-bold text-slate-900">500</h1>
+    <p class="mt-2 text-slate-700 font-medium">
+        Nimadir noto‘g‘ri ketdi
+    </p>
+    <p class="mt-1 text-sm text-slate-500">
+        Serverda kutilmagan xatolik yuz berdi. Iltimos, birozdan so‘ng qayta urinib ko‘ring.
+    </p>
+
+    <a href="{% url 'home' %}"
+       class="mt-6 inline-flex items-center gap-2 rounded-xl bg-slate-900 px-5 py-3
+              text-sm font-medium text-white hover:bg-slate-800 transition">
+        <i data-lucide="arrow-left" class="h-4 w-4"></i>
+        Bosh sahifaga qaytish
+    </a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    lucide.createIcons();
+</script>
+{% endblock %}

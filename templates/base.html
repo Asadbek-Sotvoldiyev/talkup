@@ -1,0 +1,52 @@
+{% load static %}
+
+<!doctype html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <title>
+        {% block title %}
+        TalkUp
+        {% endblock %}
+    </title>
+
+    <link href="{% static 'images/favicon.png' %}" rel="icon">
+    {% block head %}
+    {% endblock %}
+</head>
+
+<body class="{% block body_class %}bg-white text-slate-900 select-none{% endblock %}">
+
+{% block body %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+<script id="django-messages" type="application/json">
+[
+{% if messages %}
+{% for m in messages %}
+  {"text":"{{ m|escapejs }}","tags":"{{ m.tags|escapejs }}"}{% if not forloop.last %},{% endif %}
+{% endfor %}
+{% endif %}
+]
+</script>
+
+<script>
+  try {
+    window.__DJANGO_MESSAGES__ = JSON.parse(
+      document.getElementById("django-messages").textContent || "[]"
+    );
+  } catch (e) {
+    window.__DJANGO_MESSAGES__ = [];
+  }
+</script>
+
+<script src="{% static 'js/toast.js' %}"></script>
+<script defer src="{% static 'js/devtools-blocker.js' %}"></script>
+</body>
+</html>
