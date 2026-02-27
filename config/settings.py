@@ -29,12 +29,12 @@ ALLOWED_HOSTS = ['*']
 
 
 # # CSRF settings
-# CSRF_TRUSTED_ORIGINS = [
-#     "https://locale.alijonov.uz",
-#     "https://www.locale.alijonov.uz",
-#     "http://locale.alijonov.uz",
-#     "http://www.locale.alijonov.uz",
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    "https://talkup.uz",
+    "https://www.talkup.uz.uz",
+    "http://talkup.uz",
+    "http://www.talkup.uz",
+]
 
 # Application definition
 
