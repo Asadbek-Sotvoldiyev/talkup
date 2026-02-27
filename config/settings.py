@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['*']
 # # CSRF settings
 CSRF_TRUSTED_ORIGINS = [
     "https://talkup.uz",
-    "https://www.talkup.uz.uz",
+    "https://www.talkup.uz",
     "http://talkup.uz",
     "http://www.talkup.uz",
 ]
