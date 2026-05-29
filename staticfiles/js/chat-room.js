@@ -768,6 +768,11 @@ function connectWs() {
             return;
         }
 
+        if (data.type === "error") {
+            showToast(data.message || "Xatolik yuz berdi.", "error");
+            return;
+        }
+
         if (data.message) {
             const isMe = Number(data.user_id) === ME_ID;
 

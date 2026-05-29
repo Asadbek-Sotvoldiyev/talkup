@@ -1,3 +1,5 @@
+import json
+
 from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import redirect, get_object_or_404
@@ -90,6 +92,7 @@ class SearchUsersView(LoginRequiredMixin, View):
             User.objects
             .exclude(id=me.id)
             .filter(username__icontains=q)
+            .exclude(public_key="")
             .order_by("username")[:20]
         )
 
@@ -276,3 +279,28 @@ class ToggleVerifyView(View):
         return JsonResponse({
             "is_verified": user.is_verified
         })
+
+
+class KeySetupView(LoginRequiredMixin, View):
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+        except (json.JSONDecodeError, ValueError):
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+
+        user = request.user
+        user.public_key = data.get("public_key", "")
+        user.encrypted_private_key = data.get("encrypted_private_key", "")
+        user.save(update_fields=["public_key", "encrypted_private_key"])
+        return JsonResponse({"ok": True})
+
+
+class GetPublicKeyView(LoginRequiredMixin, View):
+    def get(self, request, user_id):
+        user = get_object_or_404(User, id=user_id)
+        return JsonResponse({"public_key": user.public_key})
+
+
+class GetMyPrivateKeyView(LoginRequiredMixin, View):
+    def get(self, request):
+        return JsonResponse({"encrypted_private_key": request.user.encrypted_private_key})

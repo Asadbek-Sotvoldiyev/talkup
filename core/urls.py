@@ -9,4 +9,7 @@ urlpatterns = [
     path("chats/<str:username>/delete/", ChatDeleteView.as_view(), name="chat-delete"),
     path("chats/<str:username>/verify/", ToggleVerifyView.as_view(), name="toggle-verify"),
     path("search/", SearchUsersView.as_view(), name="search-users"),
+    path("api/keys/setup/", KeySetupView.as_view(), name="key-setup"),
+    path("api/keys/user/<int:user_id>/", GetPublicKeyView.as_view(), name="get-public-key"),
+    path("api/keys/my-private/", GetMyPrivateKeyView.as_view(), name="get-my-private-key"),
 ]

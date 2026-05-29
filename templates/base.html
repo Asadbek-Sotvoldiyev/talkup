@@ -47,6 +47,10 @@
 </script>
 
 <script src="{% static 'js/toast.js' %}"></script>
-<script defer src="{% static 'js/devtools-blocker.js' %}"></script>
+
+{% if user.is_authenticated %}
+<script>window.E2E_USER_ID = {{ user.id }};</script>
+<script src="{% static 'js/e2e-crypto.js' %}"></script>
+{% endif %}
 </body>
 </html>

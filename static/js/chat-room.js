@@ -628,7 +628,7 @@ function connectWs() {
         setSendUi(false);
     };
 
-    socket.onmessage = (e) => {
+    socket.onmessage = async (e) => {
         const data = JSON.parse(e.data);
 
         if (data.history) {
@@ -647,6 +647,16 @@ function connectWs() {
                 if (ta !== tb) return ta - tb;
                 return (Number(a.id) || 0) - (Number(b.id) || 0);
             });
+
+            if (window.E2E && window.E2E.isReady()) {
+                const key = await window.E2E.getConversationKey(receiverId);
+                for (const m of msgs) {
+                    try { m.message = await window.E2E.fernetDecrypt(m.message, key); } catch (_) {}
+                    if (m.reply_to && m.reply_to.text) {
+                        try { m.reply_to.text = await window.E2E.fernetDecrypt(m.reply_to.text, key); } catch (_) {}
+                    }
+                }
+            }
 
             const frag = document.createDocumentFragment();
             let lastKey = null;
@@ -695,7 +705,13 @@ function connectWs() {
             const mid = Number(data.message_id || 0);
             if (!mid) return;
 
-            const newText = data.message || "";
+            let newText = data.message || "";
+            if (window.E2E && window.E2E.isReady()) {
+                try {
+                    const key = await window.E2E.getConversationKey(receiverId);
+                    newText = await window.E2E.fernetDecrypt(newText, key);
+                } catch (_) {}
+            }
 
             const bubble = document.querySelector(`.bubble[data-id="${mid}"]`);
             if (bubble) {
@@ -757,6 +773,16 @@ function connectWs() {
                 return (Number(a.id) || 0) - (Number(b.id) || 0);
             });
 
+            if (window.E2E && window.E2E.isReady()) {
+                const key = await window.E2E.getConversationKey(receiverId);
+                for (const m of msgs) {
+                    try { m.message = await window.E2E.fernetDecrypt(m.message, key); } catch (_) {}
+                    if (m.reply_to && m.reply_to.text) {
+                        try { m.reply_to.text = await window.E2E.fernetDecrypt(m.reply_to.text, key); } catch (_) {}
+                    }
+                }
+            }
+
             if (!msgs.length) {
                 hasMoreOlder = false;
             } else {
@@ -768,15 +794,27 @@ function connectWs() {
             return;
         }
 
+        if (data.type === "error") {
+            showToast(data.message || "Xatolik yuz berdi.", "error");
+            return;
+        }
+
         if (data.message) {
             const isMe = Number(data.user_id) === ME_ID;
-
             const shouldScroll = isMe || isNearBottom();
 
+            if (window.E2E && window.E2E.isReady()) {
+                try {
+                    const key = await window.E2E.getConversationKey(receiverId);
+                    data.message = await window.E2E.fernetDecrypt(data.message, key);
+                    if (data.reply_to && data.reply_to.text) {
+                        try { data.reply_to.text = await window.E2E.fernetDecrypt(data.reply_to.text, key); } catch (_) {}
+                    }
+                } catch (_) {}
+            }
+
             addMessage(data, isMe);
-
             if (shouldScroll) scrollToBottomSmooth();
-
             return;
         }
     };
@@ -806,15 +844,37 @@ inputEl.addEventListener("keydown", (e) => {
     }
 });
 
-formEl.addEventListener("submit", (e) => {
+const MAX_PLAIN_CHARS = 4096;
+
+formEl.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const msg = (inputEl.value || "").trim();
     if (!msg) return;
 
-    const payload = editingMessageId ? {edit: true, message_id: editingMessageId, message: msg} : {
-        message: msg, reply_to_id: replyToId || null
-    };
+    if (msg.length > MAX_PLAIN_CHARS) {
+        showToast(`Xabar ${MAX_PLAIN_CHARS} ta belgidan oshmasligi kerak.`, "error");
+        return;
+    }
+
+    let encMsg = msg;
+    if (window.E2E && window.E2E.isReady()) {
+        try {
+            const key = await window.E2E.getConversationKey(receiverId);
+            encMsg = await window.E2E.fernetEncrypt(msg, key);
+        } catch (err) {
+            if (err && err.message && (err.message.includes("no public key") || err.message.includes("Hamkorning kaliti"))) {
+                showToast("Bu foydalanuvchi hali shifrlash kalitini o'rnatmagan. Ular avval TalkUp'ga kirishlari kerak.", "error");
+            } else {
+                showToast("Xabar shifrlashda xatolik. Sahifani yangilab qaytadan urinib ko'ring.", "error");
+            }
+            return;
+        }
+    }
+
+    const payload = editingMessageId
+        ? { edit: true, message_id: editingMessageId, message: encMsg }
+        : { message: encMsg, reply_to_id: replyToId || null };
 
     ensureConnectedAndSend(payload);
 
@@ -1142,6 +1202,13 @@ function closeReply() {
 
 replyCloseBtn?.addEventListener("click", closeReply);
 
-connectWs();
 syncSepVisibility();
 updateScrollButton();
+
+if (window.E2E && window.E2E.ready) {
+    window.E2E.ready
+        .then(connectWs)
+        .catch(() => showToast("Shifrlash tizimi ishlamadi. Sahifani yangilang.", "error"));
+} else {
+    connectWs();
+}

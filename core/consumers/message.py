@@ -5,7 +5,6 @@ from django.core.cache import cache
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
 
-from core.utils import encrypt_text, decrypt_text
 from core.models import Message, User
 
 
@@ -168,14 +167,18 @@ class MessageConsumer(AsyncWebsocketConsumer):
         except (TypeError, ValueError):
             reply_to_id = None
 
-        MAX_MESSAGE_LENGTH = 4096
+        MAX_TOKEN_LENGTH = 10000
 
         text = (data.get("message") or "").strip()
         if not text:
             return
 
-        if len(text) > MAX_MESSAGE_LENGTH:
-            text = text[:MAX_MESSAGE_LENGTH]
+        if len(text) > MAX_TOKEN_LENGTH:
+            await self.send(text_data=json.dumps({
+                "type": "error",
+                "message": "Xabar juda uzun.",
+            }))
+            return
 
         receiver = getattr(self, "receiver", None)
         if not receiver:
@@ -267,13 +270,13 @@ class MessageConsumer(AsyncWebsocketConsumer):
         message = Message.objects.create(
             sender=sender,
             receiver=receiver,
-            text=encrypt_text(text),
+            text=text,
             reply_to=reply_obj
         )
 
         return {
             "id": message.id,
-            "message": self.safe_decrypt(message.text),
+            "message": message.text,
             "user": self.display_name(message.sender),
             "is_read": message.is_read,
             "is_edited": message.is_edited,
@@ -281,7 +284,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
             "reply_to": (
                 {
                     "id": reply_obj.id,
-                    "text": self.safe_decrypt(reply_obj.text),
+                    "text": reply_obj.text,
                     "user": self.display_name(reply_obj.sender),
                     "user_id": reply_obj.sender_id,
                 } if reply_obj else None
@@ -300,7 +303,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
         return [
             {
                 "id": m.id,
-                "message": self.safe_decrypt(m.text),
+                "message": m.text,
                 "user": self.display_name(m.sender),
                 "user_id": m.sender.id,
                 "is_read": m.is_read,
@@ -309,7 +312,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
                 "reply_to": (
                     {
                         "id": m.reply_to_id,
-                        "text": self.safe_decrypt(m.reply_to.text),
+                        "text": m.reply_to.text,
                         "user": self.display_name(m.reply_to.sender),
                         "user_id": m.reply_to.sender_id,
                     } if m.reply_to_id else None
@@ -335,7 +338,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
         return [
             {
                 "id": m.id,
-                "message": self.safe_decrypt(m.text),
+                "message": m.text,
                 "user": self.display_name(m.sender),
                 "user_id": m.sender.id,
                 "is_read": m.is_read,
@@ -344,7 +347,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
                 "reply_to": (
                     {
                         "id": m.reply_to_id,
-                        "text": self.safe_decrypt(m.reply_to.text),
+                        "text": m.reply_to.text,
                         "user": self.display_name(m.reply_to.sender),
                         "user_id": m.reply_to.sender_id,
                     } if m.reply_to_id else None
@@ -407,25 +410,12 @@ class MessageConsumer(AsyncWebsocketConsumer):
             return None
 
         new_text = new_text.strip()
-
-        old_text = self.safe_decrypt(msg.text).strip()
-        if new_text == old_text:
-            return None
-
-        msg.text = encrypt_text(new_text)
+        msg.text = new_text
         msg.is_edited = True
         msg.edited_at = timezone.now()
         msg.save(update_fields=["text", "is_edited", "edited_at"])
 
         return {"message": new_text}
-
-    def safe_decrypt(self, value: str) -> str:
-        if not value:
-            return ""
-        try:
-            return decrypt_text(value)
-        except Exception:
-            return value
 
     def display_name(self, user):
         return (user.get_full_name() or "").strip() or user.username

@@ -10,34 +10,45 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# .env fayldan muhit o'zgaruvchilarini yuklash (agar mavjud bo'lsa)
+_env_file = BASE_DIR / ".env"
+if _env_file.exists():
+    with open(_env_file) as _f:
+        for _line in _f:
+            _line = _line.strip()
+            if _line and not _line.startswith("#") and "=" in _line:
+                _key, _, _val = _line.partition("=")
+                os.environ.setdefault(_key.strip(), _val.strip())
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-5c#jha1un)9c(t#clf-m!^p9q(-(u+10byv@hg3wjo_a2=8@_s"
-MESSAGE_ENCRYPTION_KEY = b'zXR-vc3H99Dt_6NqCO4HdkCQVx6WkDphpmAAcvWgTTU='
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-5c#jha1un)9c(t#clf-m!^p9q(-(u+10byv@hg3wjo_a2=8@_s",
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
-ALLOWED_HOSTS = ['*']
+_allowed = os.environ.get("ALLOWED_HOSTS", "talkup.uz,www.talkup.uz")
+ALLOWED_HOSTS = [h.strip() for h in _allowed.split(",") if h.strip()]
 
-
-# # CSRF settings
-CSRF_TRUSTED_ORIGINS = [
-    "https://talkup.uz",
-    "https://www.talkup.uz",
-]
+# CSRF settings
+_csrf = os.environ.get("CSRF_TRUSTED_ORIGINS", "https://talkup.uz,https://www.talkup.uz")
+CSRF_TRUSTED_ORIGINS = [o.strip() for o in _csrf.split(",") if o.strip()]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 USE_X_FORWARDED_HOST = True
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
-SECURE_SSL_REDIRECT = True
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = os.environ.get("HTTP_PROTOCOL", "https")
+SECURE_SSL_REDIRECT = os.environ.get("SECURE_SSL_REDIRECT", "True").lower() == "true"
 
 # Application definition
 
@@ -90,19 +101,20 @@ TEMPLATES = [
     },
 ]
 
-# cache (dev)
+REDIS_URL = os.environ.get("REDIS_URL", "redis://127.0.0.1:6379")
+
 CACHES = {
     "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": f"{REDIS_URL}/1",
     }
 }
 
-# channel layers (dev)
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [f"{REDIS_URL}/0"],
         },
     }
 }

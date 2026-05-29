@@ -6,6 +6,8 @@ from .utils import user_image_path
 class User(AbstractUser):
     image = models.ImageField(upload_to=user_image_path, null=True, blank=True)
     is_verified = models.BooleanField(default=False)
+    public_key = models.TextField(blank=True, default="")
+    encrypted_private_key = models.TextField(blank=True, default="")
 
 
 class Message(models.Model):
@@ -20,6 +22,10 @@ class Message(models.Model):
 
     class Meta:
         ordering = ["created_at"]
+        indexes = [
+            models.Index(fields=["sender", "receiver", "created_at"]),
+            models.Index(fields=["receiver", "is_read"]),
+        ]
 
     def __str__(self):
         return f"{self.sender} - {self.receiver}"
